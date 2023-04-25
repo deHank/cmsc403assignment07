@@ -11,7 +11,7 @@ class CustomCanvas:
         self.canvas = tk.Canvas(self.root, height = height, width = width)
         self.canvas.pack()
 
-
+    #helped method to create a rectangle and display it
     def displayRects(self, rectangles):
         for shape in rectangles:
             self.canvas.create_rectangle(shape.x, shape.y, shape.x + shape.width, shape.y + shape.height, fill='blue',
@@ -28,12 +28,13 @@ class Rectangle:
 def pack(allRec, canvasSize):
   #Creating new packer object
   height, width = canvasSize
-  shapePacker = newPacker(mode=PackingMode.Offline, bin_algo=PackingBin.BNF, sort_algo=SORT_AREA, rotation=False)
+  shapePacker = newPacker()
 
   for shape in allRec:
     #adding each rectangle and its paramters
     shapePacker.add_rect(shape.width, shape.height, rid=shape)
 
+  #Packing
   shapePacker.add_bin(width, height)
   shapePacker.pack()
 
@@ -62,11 +63,13 @@ def main():
   #iterating thru all of our rectangle arguments that we tupled
   rectangles = [Rectangle(*arguments) for arguments in recsize]
 
+  #calling for rectangles to be packed
   packedRects = pack(rectangles, canvasParam)
 
   #for shape in packedRects:
   #    myCanvas.canvas.create_rectangle(shape.x, shape.x, shape.x+shape.width, shape.y+shape.height, fill='blue',outline='black')
 
+  #calling for helper method to display rects
   myCanvas.displayRects(packedRects)
 
 
